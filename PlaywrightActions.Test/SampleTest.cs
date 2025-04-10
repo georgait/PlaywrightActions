@@ -1,11 +1,26 @@
 ﻿using Microsoft.Playwright;
 using Microsoft.Playwright.Xunit;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using Xunit.Sdk;
 
 namespace PlaywrightActions.Test;
 
+[WithTestName]
 public class SampleTest : PageTest
 {
+    public override async Task InitializeAsync()
+    {
+        await base.InitializeAsync().ConfigureAwait(false);
+        await Context.Tracing.StartAsync(new()
+        {
+            Title = $"{WithTestNameAttribute.CurrentClassName}.{WithTestNameAttribute.CurrentTestName}",
+            Screenshots = true,
+            Snapshots = true,
+            Sources = true
+        });
+    }
+
     [Fact]
     public async Task HasTitle()
     {
@@ -25,5 +40,21 @@ public class SampleTest : PageTest
 
         // Expects page to have a heading with the name of Installation.
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Installation" })).ToBeVisibleAsync();
+    }
+}
+
+public class WithTestNameAttribute : BeforeAfterTestAttribute
+{
+    public static string CurrentTestName = string.Empty;
+    public static string CurrentClassName = string.Empty;
+
+    public override void Before(MethodInfo methodInfo)
+    {
+        CurrentTestName = methodInfo.Name;
+        CurrentClassName = methodInfo.DeclaringType!.Name;
+    }
+
+    public override void After(MethodInfo methodInfo)
+    {
     }
 }
