@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/PlaywrightActions.Test/.vs
+/PlaywrightActions.Test/obj
+/PlaywrightActions.Test/bin/Debug/net9.0
