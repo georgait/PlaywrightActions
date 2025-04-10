@@ -40,6 +40,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
+        env:
+          DOTNET_INSTALL_DIR: ${{ github.workspace }}/.dotnet
+      - run: export PATH="${{ github.workspace }}/.dotnet:$PATH"
       - run: dotnet build
       - name: Run your tests
         run: dotnet test
