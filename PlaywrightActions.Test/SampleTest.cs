@@ -21,7 +21,7 @@ public class SampleTest : PageTest
         await Page.GotoAsync("https://playwright.dev");
 
         // Click the get started link.
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Get started" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Get starteds" }).ClickAsync();
 
         // Expects page to have a heading with the name of Installation.
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Installation" })).ToBeVisibleAsync();
