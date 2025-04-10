@@ -21,6 +21,19 @@ public class SampleTest : PageTest
         });
     }
 
+    public override async Task DisposeAsync()
+    {
+        await Context.Tracing.StopAsync(new()
+        {
+            Path = Path.Combine(
+                Environment.CurrentDirectory,
+                "playwright-traces",
+               $"{WithTestNameAttribute.CurrentClassName}.{WithTestNameAttribute.CurrentTestName}.zip"
+            )
+        });
+        await base.DisposeAsync().ConfigureAwait(false);
+    }
+
     [Fact]
     public async Task HasTitle()
     {
